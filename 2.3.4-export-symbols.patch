@@ -1,0 +1,33 @@
+--- origsrc/Source/WebCore/Target.pri	2014-09-24 06:42:05.000000000 -0500
++++ src/Source/WebCore/Target.pri	2015-03-27 16:57:49.879721800 -0500
+@@ -4153,10 +4153,6 @@ contains(DEFINES, WTF_USE_GRAPHICS_SURFA
+     }
+ }
+ 
+-#build?(qttestsupport) {
+-    HEADERS += platform/qt/QtTestSupport.h
+-    SOURCES += platform/qt/QtTestSupport.cpp
+-
+ ALL_IN_ONE_SOURCES += \
+     accessibility/AccessibilityAllInOne.cpp \
+     inspector/InspectorAllInOne.cpp \
+--- origsrc/Source/WebCore/WebCore.pri	2015-03-26 15:26:52.702841700 -0500
++++ src/Source/WebCore/WebCore.pri	2015-03-27 16:42:54.427513800 -0500
+@@ -359,6 +359,7 @@ mac {
+ }
+ unix:!mac:*-g++*:QMAKE_CXXFLAGS += -fdata-sections
+ unix:!mac:*-g++*:QMAKE_LFLAGS += -Wl,--gc-sections
++cygwin*:QMAKE_LFLAGS += -Wl,--exclude-libs=libJavaScriptCore.a:libANGLE.a:libWebCore.a
+ linux*-g++*:QMAKE_LFLAGS += $$QMAKE_LFLAGS_NOUNDEF
+ 
+ unix|win32-g++* {
+--- origsrc/Source/WebKit/WebKit1.pro	2014-09-24 06:42:05.000000000 -0500
++++ src/Source/WebKit/WebKit1.pro	2015-03-27 16:58:15.780510800 -0500
+@@ -155,3 +155,7 @@ contains(DEFINES, ENABLE_GEOLOCATION=1)
+ 
+ contains(DEFINES, WTF_USE_3D_GRAPHICS=1): WEBKIT += angle
+ 
++#build?(qttestsupport) {
++    HEADERS += $$PWD/../WebCore/platform/qt/QtTestSupport.h
++    SOURCES += $$PWD/../WebCore/platform/qt/QtTestSupport.cpp
++

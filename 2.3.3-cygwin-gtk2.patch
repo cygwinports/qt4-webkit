@@ -1,0 +1,44 @@
+--- origsrc/webkit-qtwebkit-23/Source/WebCore/plugins/qt/PluginPackageQt.cpp	2013-09-03 04:58:46.000000000 -0500
++++ src/webkit-qtwebkit-23/Source/WebCore/plugins/qt/PluginPackageQt.cpp	2014-09-10 03:24:40.499525200 -0500
+@@ -120,7 +120,7 @@ static void initializeGtk(QLibrary* modu
+         }
+     }
+ 
+-    QLibrary library(QLatin1String("libgtk-x11-2.0"), 0);
++    QLibrary library(QLatin1String("gtk-x11-2.0"), 0);
+     if (library.load()) {
+         typedef void *(*gtk_init_check_ptr)(int*, char***);
+         gtk_init_check_ptr gtkInitCheck = (gtk_init_check_ptr)library.resolve("gtk_init_check");
+--- origsrc/webkit-qtwebkit-23/Source/WebCore/plugins/qt/PluginViewQt.cpp	2014-09-24 06:42:05.000000000 -0500
++++ src/webkit-qtwebkit-23/Source/WebCore/plugins/qt/PluginViewQt.cpp	2014-11-30 17:03:50.280451200 -0600
+@@ -818,7 +818,7 @@ static Display *getPluginDisplay()
+     // support gdk based plugins (like flash) that use a different X connection.
+     // The code below has the same effect as this one:
+     // Display *gdkDisplay = gdk_x11_display_get_xdisplay(gdk_display_get_default());
+-    QLibrary library(QLatin1String("libgdk-x11-2.0"), 0);
++    QLibrary library(QLatin1String("gdk-x11-2.0"), 0);
+     if (!library.load())
+         return 0;
+ 
+--- origsrc/webkit-qtwebkit-23/Source/WebKit2/PluginProcess/qt/PluginProcessMainQt.cpp	2013-09-03 04:58:46.000000000 -0500
++++ src/webkit-qtwebkit-23/Source/WebKit2/PluginProcess/qt/PluginProcessMainQt.cpp	2014-09-10 03:25:50.153870100 -0500
+@@ -56,7 +56,7 @@ static void messageHandler(QtMsgType typ
+ 
+ static bool initializeGtk()
+ {
+-    QLibrary gtkLibrary(QLatin1String("libgtk-x11-2.0"), 0);
++    QLibrary gtkLibrary(QLatin1String("gtk-x11-2.0"), 0);
+     if (!gtkLibrary.load())
+         return false;
+     typedef void* (*gtk_init_ptr)(void*, void*);
+--- origsrc/webkit-qtwebkit-23/Source/WebKit2/WebProcess/Plugins/Netscape/x11/NetscapePluginX11.cpp	2014-09-24 06:42:05.000000000 -0500
++++ src/webkit-qtwebkit-23/Source/WebKit2/WebProcess/Plugins/Netscape/x11/NetscapePluginX11.cpp	2015-03-27 11:07:52.733922900 -0500
+@@ -64,7 +64,7 @@
+     // The code below has the same effect as this one:
+     // Display *gdkDisplay = gdk_x11_display_get_xdisplay(gdk_display_get_default());
+ 
+-    QLibrary library(QLatin1String("libgdk-x11-2.0"), 0);
++    QLibrary library(QLatin1String("gdk-x11-2.0"), 0);
+     if (!library.load())
+         return 0;
+ 

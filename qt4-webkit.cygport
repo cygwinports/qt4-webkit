@@ -1,0 +1,62 @@
+inherit qt4-qmake
+
+NAME="qt4-webkit"
+VERSION=4.10.4
+RELEASE=1
+CATEGORY="Libs"
+SUMMARY="Qt4 WebKit library"
+DESCRIPTION=
+HOMEPAGE="https://trac.webkit.org/wiki/QtWebKit"
+tarball_v=2.3.${VERSION##*\.}
+SRC_URI="mirror://kde/stable/qtwebkit-2.3/${tarball_v}/src/qtwebkit-${tarball_v}.tar.gz"
+SRC_DIR="."
+PATCH_URI="
+	fedora/qtwebkit-2.3-debuginfo.patch
+	fedora/qtwebkit-ppc.patch
+	fedora/qtwebkit-23-LLInt-C-Loop-backend-ppc.patch
+	fedora/webkit-qtwebkit-23-private_browsing.patch
+	2.3.3-c++11-warnings.patch
+	2.3.3-cygwin-angle.patch
+	2.3.3-cygwin-gtk2.patch
+	2.3.3-cygwin-jit.patch
+	2.3.3-cygwin-plugins.patch
+	2.3.3-cygwin-wchar.patch
+	2.3.3-cygwin-wtf.patch
+	2.3.4-gstreamer1.patch
+	2.3.4-export-symbols.patch
+"
+
+DISTCLEANFILES=".qmake.cache.in"
+
+PKG_NAMES="libQtWebKit4 libQtWebKit4-devel"
+libQtWebKit4_CONTENTS="usr/bin/cygQtWebKit-4.dll usr/lib/qt4/imports/QtWebKit/ usr/share/doc/"
+libQtWebKit4_devel_CONTENTS="usr/include/qt4/QtWebKit/
+	usr/lib/libQtWebKit.dll.a
+	usr/lib/libQtWebKit.prl
+	usr/lib/pkgconfig/QtWebKit.pc
+	usr/share/qt4/mkspecs/modules/qt_webkit.pri
+"
+
+src_compile() {
+	cd ${B}
+	QTDIR=${QT4_QTDIR} \
+	PATH=${QT4_BINDIR}:${PATH} \
+	QMAKEPATH=${S}/Tools/qmake \
+	WEBKITOUTPUTDIR=${B} \
+	${S}/Tools/Scripts/build-webkit \
+		--qt --no-webkit2 --release --system-malloc \
+		--qmakearg="CONFIG+=production_build" \
+		--qmakearg="DEFINES+=HAVE_LIBWEBP=1" \
+		$(for flag in ${CXXFLAGS}; do echo --qmakearg="QMAKE_CXXFLAGS_RELEASE+=$flag"; done) \
+		--qmakearg="QMAKE_STRIP=:" \
+		--makeargs=${MAKEOPTS}
+}
+
+src_install() {
+	cd ${B}/Release
+	qt4_qmake_install
+
+	sed -i -e '/^Libs\.private:/d' ${D}/usr/lib/pkgconfig/QtWebKit.pc
+}
+
+DOCS="Source/WebCore/LICENSE-*"

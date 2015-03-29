@@ -1,0 +1,18 @@
+--- origsrc/Source/WebCore/platform/graphics/gstreamer/PlatformVideoWindowPrivate.h	2014-09-24 06:42:05.000000000 -0500
++++ src/Source/WebCore/platform/graphics/gstreamer/PlatformVideoWindowPrivate.h	2014-11-30 10:16:12.601299700 -0600
+@@ -20,6 +20,8 @@
+ #ifndef PlatformVideoWindowPrivate_h
+ #define PlatformVideoWindowPrivate_h
+ 
++#if ENABLE(VIDEO) && USE(GSTREAMER) && !defined(GST_API_VERSION_1)
++
+ #include <QEvent>
+ #include <QTimer>
+ 
+@@ -65,5 +67,5 @@ private:
+ 
+ } // namespace WebCore
+ 
+-
++#endif // ENABLE(VIDEO) && USE(GSTREAMER) && !defined(GST_API_VERSION_1)
+ #endif // PlatformVideoWindowPrivate_h

@@ -1,0 +1,33 @@
+--- origsrc/webkit-qtwebkit-23/Source/JavaScriptCore/API/JSStringRef.h	2013-09-03 04:58:46.000000000 -0500
++++ src/webkit-qtwebkit-23/Source/JavaScriptCore/API/JSStringRef.h	2014-09-07 13:49:56.803081600 -0500
+@@ -37,7 +37,7 @@
+ extern "C" {
+ #endif
+ 
+-#if !defined(WIN32) && !defined(_WIN32) \
++#if !defined(WIN32) && !defined(_WIN32) && !defined(__CYGWIN__) \
+     && !((defined(__CC_ARM) || defined(__ARMCC__)) && !defined(__linux__)) /* RVCT */
+ /*!
+ @typedef JSChar
+--- origsrc/webkit-qtwebkit-23/Source/WTF/wtf/unicode/qt4/UnicodeQt4.h	2013-09-03 04:58:46.000000000 -0500
++++ src/webkit-qtwebkit-23/Source/WTF/wtf/unicode/qt4/UnicodeQt4.h	2014-09-09 04:26:37.963676500 -0500
+@@ -62,7 +62,7 @@ namespace QUnicodeTables {
+ QT_END_NAMESPACE
+ 
+ // ugly hack to make UChar compatible with JSChar in API/JSStringRef.h
+-#if defined(Q_OS_WIN) || (COMPILER(RVCT) && !OS(LINUX))
++#if defined(Q_OS_WIN) || defined(Q_OS_CYGWIN) || (COMPILER(RVCT) && !OS(LINUX))
+ typedef wchar_t UChar;
+ #else
+ typedef uint16_t UChar;
+--- origsrc/webkit-qtwebkit-23/Source/WebKit2/Shared/API/c/WKString.h	2013-09-03 04:58:46.000000000 -0500
++++ src/webkit-qtwebkit-23/Source/WebKit2/Shared/API/c/WKString.h	2014-09-07 13:49:56.803081600 -0500
+@@ -36,7 +36,7 @@
+ extern "C" {
+ #endif
+ 
+-#if !defined(WIN32) && !defined(_WIN32) \
++#if !defined(WIN32) && !defined(_WIN32) && !defined(__CYGWIN__) \
+     && !((defined(__CC_ARM) || defined(__ARMCC__)) && !defined(__linux__)) /* RVCT */
+     typedef unsigned short WKChar;
+ #else
