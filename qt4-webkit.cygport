@@ -30,6 +30,7 @@ DISTCLEANFILES=".qmake.cache.in"
 
 PKG_NAMES="libQtWebKit4 libQtWebKit4-devel"
 libQtWebKit4_CONTENTS="usr/bin/cygQtWebKit-4.dll usr/lib/qt4/imports/QtWebKit/ usr/share/doc/"
+libQtWebKit4_devel_REQUIRES="qt4-designer-plugin-webkit"
 libQtWebKit4_devel_CONTENTS="usr/include/qt4/QtWebKit/
 	usr/lib/libQtWebKit.dll.a
 	usr/lib/libQtWebKit.prl
