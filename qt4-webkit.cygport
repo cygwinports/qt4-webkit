@@ -2,7 +2,7 @@ inherit qt4-qmake
 
 NAME="qt4-webkit"
 VERSION=4.10.4
-RELEASE=1
+RELEASE=2
 CATEGORY="Libs"
 SUMMARY="Qt4 WebKit library"
 DESCRIPTION=
@@ -24,6 +24,7 @@ PATCH_URI="
 	2.3.3-cygwin-wtf.patch
 	2.3.4-gstreamer1.patch
 	2.3.4-export-symbols.patch
+	2.3.4-bz118566.patch
 "
 
 DISTCLEANFILES=".qmake.cache.in"
