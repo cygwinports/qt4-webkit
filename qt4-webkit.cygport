@@ -2,7 +2,7 @@ inherit qt4-qmake
 
 NAME="qt4-webkit"
 VERSION=4.10.4
-RELEASE=2
+RELEASE=3
 CATEGORY="Libs"
 SUMMARY="Qt4 WebKit library"
 DESCRIPTION=
@@ -14,6 +14,7 @@ PATCH_URI="
 	fedora/qtwebkit-2.3-debuginfo.patch
 	fedora/qtwebkit-ppc.patch
 	fedora/qtwebkit-23-LLInt-C-Loop-backend-ppc.patch
+	fedora/webkit-qtwebkit-23-gcc5.patch
 	fedora/webkit-qtwebkit-23-private_browsing.patch
 	2.3.3-c++11-warnings.patch
 	2.3.3-cygwin-angle.patch
@@ -49,7 +50,7 @@ src_compile() {
 		--qt --no-webkit2 --release --system-malloc \
 		--qmakearg="CONFIG+=production_build" \
 		--qmakearg="DEFINES+=HAVE_LIBWEBP=1" \
-		$(for flag in ${CXXFLAGS}; do echo --qmakearg="QMAKE_CXXFLAGS_RELEASE+=$flag"; done) \
+		$(for flag in ${CXXFLAGS} -D_GNU_SOURCE; do echo --qmakearg="QMAKE_CXXFLAGS_RELEASE+=$flag"; done) \
 		--qmakearg="QMAKE_STRIP=:" \
 		--makeargs=${MAKEOPTS}
 }
